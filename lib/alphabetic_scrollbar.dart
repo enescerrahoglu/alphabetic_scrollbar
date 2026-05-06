@@ -18,7 +18,8 @@ class AlphabeticScrollbar extends StatefulWidget {
   State<AlphabeticScrollbar> createState() => _AlphabeticScrollbarState();
 }
 
-class _AlphabeticScrollbarState extends State<AlphabeticScrollbar> with SingleTickerProviderStateMixin {
+class _AlphabeticScrollbarState extends State<AlphabeticScrollbar>
+    with SingleTickerProviderStateMixin {
   final List<String> _alphabets = [
     'A',
     'B',
@@ -67,7 +68,8 @@ class _AlphabeticScrollbarState extends State<AlphabeticScrollbar> with SingleTi
   bool get _alwaysVisible => widget.scrollController == null;
 
   bool get _isRightOriented =>
-      widget.scrollbarOrientation == ScrollbarOrientation.right || widget.scrollbarOrientation == null;
+      widget.scrollbarOrientation == ScrollbarOrientation.right ||
+      widget.scrollbarOrientation == null;
 
   @override
   void initState() {
@@ -78,15 +80,13 @@ class _AlphabeticScrollbarState extends State<AlphabeticScrollbar> with SingleTi
       value: _alwaysVisible ? 1.0 : 0.0,
     );
 
-    _slideAnimation = Tween<double>(
-      begin: 1.0,
-      end: 0.0,
-    ).animate(CurvedAnimation(parent: _visibilityController, curve: Curves.easeInOut));
+    _slideAnimation = Tween<double>(begin: 1.0, end: 0.0).animate(
+      CurvedAnimation(parent: _visibilityController, curve: Curves.easeInOut),
+    );
 
-    _fadeAnimation = Tween<double>(
-      begin: 0.0,
-      end: 1.0,
-    ).animate(CurvedAnimation(parent: _visibilityController, curve: Curves.easeInOut));
+    _fadeAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
+      CurvedAnimation(parent: _visibilityController, curve: Curves.easeInOut),
+    );
 
     if (!_alwaysVisible) {
       widget.scrollController!.addListener(_onScroll);
@@ -104,12 +104,16 @@ class _AlphabeticScrollbarState extends State<AlphabeticScrollbar> with SingleTi
   }
 
   String? _getLetterFromOffset(Offset globalPosition) {
-    final RenderBox? box = _barKey.currentContext?.findRenderObject() as RenderBox?;
+    final RenderBox? box =
+        _barKey.currentContext?.findRenderObject() as RenderBox?;
     if (box == null) return null;
 
     final localPos = box.globalToLocal(globalPosition);
     final totalHeight = box.size.height;
-    final index = (localPos.dy / totalHeight * _alphabets.length).floor().clamp(0, _alphabets.length - 1);
+    final index = (localPos.dy / totalHeight * _alphabets.length).floor().clamp(
+      0,
+      _alphabets.length - 1,
+    );
     return _alphabets[index];
   }
 
@@ -170,7 +174,11 @@ class _AlphabeticScrollbarState extends State<AlphabeticScrollbar> with SingleTi
       },
       onVerticalDragEnd: (_) => _hoveredLetter.value = null,
       child: Padding(
-        padding: EdgeInsets.only(left: 4.0, right: 4.0, top: MediaQuery.of(context).padding.top + kToolbarHeight),
+        padding: EdgeInsets.only(
+          left: 4.0,
+          right: 4.0,
+          top: MediaQuery.of(context).padding.top + kToolbarHeight,
+        ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           spacing: 1,
@@ -187,10 +195,15 @@ class _AlphabeticScrollbarState extends State<AlphabeticScrollbar> with SingleTi
                         final isHovered = hovered == letter;
                         return Text(
                           letter,
-                          style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                            fontWeight: isHovered ? FontWeight.bold : FontWeight.normal,
-                            color: isHovered ? colorScheme.primaryFixed : colorScheme.outlineVariant,
-                          ),
+                          style: Theme.of(context).textTheme.bodySmall
+                              ?.copyWith(
+                                fontWeight: isHovered
+                                    ? FontWeight.bold
+                                    : FontWeight.normal,
+                                color: isHovered
+                                    ? colorScheme.primaryFixed
+                                    : colorScheme.outlineVariant,
+                              ),
                         );
                       },
                     ),
@@ -207,11 +220,16 @@ class _AlphabeticScrollbarState extends State<AlphabeticScrollbar> with SingleTi
       child: AnimatedBuilder(
         animation: _visibilityController,
         builder: (context, child) {
-          final slideOffset = _isRightOriented ? Offset(_slideAnimation.value, 0) : Offset(-_slideAnimation.value, 0);
+          final slideOffset = _isRightOriented
+              ? Offset(_slideAnimation.value, 0)
+              : Offset(-_slideAnimation.value, 0);
 
           return FadeTransition(
             opacity: _fadeAnimation,
-            child: SlideTransition(position: AlwaysStoppedAnimation(slideOffset), child: child),
+            child: SlideTransition(
+              position: AlwaysStoppedAnimation(slideOffset),
+              child: child,
+            ),
           );
         },
         child: bar,
@@ -228,7 +246,8 @@ class AnimatedLetterBubble extends StatefulWidget {
   State<AnimatedLetterBubble> createState() => _AnimatedLetterBubbleState();
 }
 
-class _AnimatedLetterBubbleState extends State<AnimatedLetterBubble> with SingleTickerProviderStateMixin {
+class _AnimatedLetterBubbleState extends State<AnimatedLetterBubble>
+    with SingleTickerProviderStateMixin {
   late final AnimationController _controller;
   late final Animation<double> _scaleAnim;
   late final Animation<double> _opacityAnim;
@@ -236,9 +255,18 @@ class _AnimatedLetterBubbleState extends State<AnimatedLetterBubble> with Single
   @override
   void initState() {
     super.initState();
-    _controller = AnimationController(vsync: this, duration: const Duration(milliseconds: 200));
-    _scaleAnim = CurvedAnimation(parent: _controller, curve: Curves.easeOutBack);
-    _opacityAnim = Tween<double>(begin: 0, end: 1).animate(CurvedAnimation(parent: _controller, curve: Curves.easeIn));
+    _controller = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 200),
+    );
+    _scaleAnim = CurvedAnimation(
+      parent: _controller,
+      curve: Curves.easeOutBack,
+    );
+    _opacityAnim = Tween<double>(
+      begin: 0,
+      end: 1,
+    ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeIn));
     _controller.forward();
   }
 
@@ -262,7 +290,13 @@ class _AnimatedLetterBubbleState extends State<AnimatedLetterBubble> with Single
             decoration: BoxDecoration(
               color: Theme.of(context).colorScheme.primaryFixed,
               shape: BoxShape.circle,
-              boxShadow: [BoxShadow(color: Colors.black26, blurRadius: 16, offset: const Offset(0, 0))],
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black26,
+                  blurRadius: 16,
+                  offset: const Offset(0, 0),
+                ),
+              ],
             ),
             child: Text(
               widget.letter,
