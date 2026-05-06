@@ -1,7 +1,8 @@
 name: alphabetic_scrollbar
-description: "A new Flutter package project."
+description: "A Flutter package that provides an alphabetic scrollbar widget for easy navigation through lists or grids of items. The scrollbar displays letters of the alphabet, allowing users to quickly jump to specific sections of the list based on the first letter of the items."
 version: 0.0.1
-homepage:
+repository: https://github.com/enescerrahoglu/alphabetic_scrollbar
+homepage: https://featapps.com/
 
 environment:
   sdk: ^3.11.5
