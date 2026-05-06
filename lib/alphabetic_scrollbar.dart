@@ -2,12 +2,12 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-class AlphabeticScrollBar extends StatefulWidget {
+class AlphabeticScrollbar extends StatefulWidget {
   final ScrollController? scrollController;
   final ValueChanged<String>? onLetterSelected;
   final ScrollbarOrientation? scrollbarOrientation;
 
-  const AlphabeticScrollBar({
+  const AlphabeticScrollbar({
     super.key,
     this.scrollController,
     this.onLetterSelected,
@@ -15,10 +15,10 @@ class AlphabeticScrollBar extends StatefulWidget {
   });
 
   @override
-  State<AlphabeticScrollBar> createState() => _AlphabeticScrollBarState();
+  State<AlphabeticScrollbar> createState() => _AlphabeticScrollbarState();
 }
 
-class _AlphabeticScrollBarState extends State<AlphabeticScrollBar> with SingleTickerProviderStateMixin {
+class _AlphabeticScrollbarState extends State<AlphabeticScrollbar> with SingleTickerProviderStateMixin {
   final List<String> _alphabets = [
     'A',
     'B',
